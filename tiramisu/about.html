@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | SecretLayers Tiramisu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: 'rgb(101, 6, 9)',
+                        cream: 'rgb(232, 204, 192)',
+                        darkCream: 'rgb(212, 184, 172)',
+                        lightCream: 'rgb(242, 224, 212)',
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, {
+            threshold: 0.2 // adjust how visible the element must be
+        });
+        
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animated');
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+  });
+
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: rgb(101, 6, 9);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(101, 6, 9, 0.1);
+        }
+        
+        .value-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(101, 6, 9, 0.1), 0 10px 10px -5px rgba(101, 6, 9, 0.04);
+        }
+
+        /* Placeholder for images */
+        .img-placeholder {
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-down {
+            opacity: 0;
+            transform: translateY(-30px)
+        }
+
+        .slide-up {
+         opacity: 0;
+         transform: translateY(30px);
+        }
+
+        .delay-200 {
+         animation-delay: 0.2s;
+        }
+
+        .delay-400 {
+         animation-delay: 0.4s;
+        }
+
+        
+
+        .slide-up.animated {
+         opacity: 1;
+         transform: translateY(0);
+         animation: slideUp 1s ease-out forwards;
+        }
+
+        .slide-down.animated {
+         opacity: 1;
+         transform: translateY(0);
+         animation: slideDown 1s ease-out forwards;
+        }
+
+
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 5px;
+        }
+        .row::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header (Sticky) -->
+    <header class="fixed w-full bg-white bg-opacity-95 shadow-sm z-50 py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="home.html" class="logo text-burgundy text-2xl md:text-3xl">SecretLayers</a>
+            
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="home.html" class="nav-link text-gray-800 hover:text-burgundy transition-colors">Home</a>
+                <a href="order.html" class="nav-link text-gray-800 hover:text-burgundy transition-colors">Order</a>
+                <a href="about.html" class="nav-link text-burgundy font-medium">About</a>
+                <a href="contact.html" class="nav-link text-gray-800 hover:text-burgundy transition-colors">Contact</a>
+            </nav>
+            
+            <div class="flex items-center">
+                <div class="relative mr-2 md:mr-0">
+                    <button id="cart-btn" class="p-2 text-gray-800 hover:text-burgundy transition-colors">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span id="cart-count" class="cart-count">0</span>
+                    </button>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-800 hover:text-burgundy">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white absolute w-full border-t border-gray-100 py-4 shadow-lg">
+            <div class="container mx-auto px-4 flex flex-col space-y-4">
+                <a href="home.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">Home</a>
+                <a href="order.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">Order</a>
+                <a href="about.html" class="text-burgundy font-medium py-2">About</a>
+                <a href="contact.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+        <div class="p-6 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-burgundy">Your Cart</h2>
+                <button id="close-cart" class="text-gray-500 hover:text-burgundy">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="flex-grow overflow-y-auto">
+                <p id="empty-cart-message" class="text-gray-500 text-center py-8">Your cart is empty</p>
+                <!-- Cart items will be added here dynamically -->
+            </div>
+            
+            <div class="pt-4 border-t border-gray-200">
+                <div class="flex justify-between mb-4">
+                    <span class="font-medium">Total:</span>
+                    <span id="cart-total" class="font-semibold text-burgundy">£0.00</span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-burgundy text-white py-3 rounded-md hover:bg-opacity-90 transition-colors">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class= "pb-20">
+        <!-- Owner's Story Section -->
+        <section class="py-40 bg-cream bg-opacity-20">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <div class="w-full h-96 rounded-2xl overflow-hidden">
+                            <img src="images/business.jpg" alt="Owner In Suit Picture" class="w-full h-full object-cover block">
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <h1 class="font-playfair text-3xl md:text-4xl text-burgundy mb-6">Serena Mendolia</h1>
+                        <p class="text-lg mb-4 leading-relaxed">
+                            TIRAMISU HAS ALWAYS BEEN MY LOVE STORY. ❤️
+                        </p>
+                        <p class="mb-4 leading-relaxed">
+                            From a young age, back home in Sicily, I found joy in the simplest layers of mascarpone and coffee-soaked savoiardi. I started making tiramisu in my family kitchen when I was just a teenager. People kept asking for it,<br> and by 15, my mum jokingly said, "You should open a business!"
+                        </p>
+                        <p class="mb-4 leading-relaxed">
+                            Well… fast forward (a few) years, and here I am.
+                        </p>
+                        <p class="mb-6 leading-relaxed">
+                            After nearly a decade of living in London, I've decided to bring a little Sicilian love to this city I now call home.
+                        </p>
+                        <p class="mb-6 leading-relaxed">
+                            This shows if you have a plan in mind and you put the necessary work into it, every dream is achievable even the ones that seem impossible.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-16 h-1 bg-burgundy mr-4"></div>
+                            <p class="text-burgundy font-playfair italic">With love from Sicily to London</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Sliding Pictures-->
+        <section class="image-row bg-cream bg-opacity-10">
+            <div class="row">
+                <div class="column img-wrapper animate-on-scroll slide-down">
+                  <img src="images/owner3.jpg" alt="Banana" style="width:100%">
+                </div>
+                <div class="column img-wrapper animate-on-scroll slide-up delay-200">
+                  <img src="images/model.jpg" alt="Owner" style="width:100%">
+                </div>
+                <div class="column img-wrapper animate-on-scroll slide-down delay-400">
+                  <img src="images/model2.jpg" alt="Products" style="width:100%">
+                </div>
+            </div>  
+        </section>
+
+
+        <!-- Our Philosophy Section -->
+        <section class="py-28">
+            <div class="container mx-auto px-4">
+                <h2 class="font-playfair text-3xl md:text-4xl text-burgundy text-center mb-12">Our Philosophy</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="value-card bg-white p-8 rounded-lg shadow-md text-center">
+                        <div class="w-16 h-16 bg-cream bg-opacity-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-copyright text-burgundy text-2xl"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-4">Carefully Curated</h3>
+                        <p class="text-gray-600">
+                            We carefully choose quality ingredients like Italian mascarpone and organic cream to ensure excellence in every tiramisu bite.                      
+                        </p>
+                    </div>
+
+                    <div class="value-card bg-white p-8 rounded-lg shadow-md text-center">
+                        <div class="w-16 h-16 bg-cream bg-opacity-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-street-view text-burgundy text-2xl"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-4">Innovation Meets Tradition</h3>
+                        <p class="text-gray-600">
+                            We stay true to tradition but welcome creativity, adding subtle twists that make each tiramisu uniquely delightful today evolving dessert culture.                       
+                        </p>
+                    </div>
+
+                    <div class="value-card bg-white p-8 rounded-lg shadow-md text-center">
+                        <div class="w-16 h-16 bg-cream bg-opacity-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-heart text-burgundy text-2xl"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-4"> Crafted with Love</h3>
+                        <p class="text-gray-600">
+                            Every tiramisu is handmade with love, blending textures and flavours into a comforting experience that truly feels like home.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-burgundy text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <a href="home.html" class="logo text-2xl md:text-3xl mb-6 md:mb-0">SecretLayers</a>
+                
+                <div class="flex space-x-6">
+                    <a href="https://www.instagram.com/_secretlayers/reels/" class="social-icon text-xl hover:text-cream">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon text-xl hover:text-cream">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon text-xl hover:text-cream">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-white border-opacity-20 pt-8">
+                <div class="flex flex-col md:flex-row justify-between">
+                    <div class="mb-6 md:mb-0">
+                        <p class="text-sm text-white text-opacity-70">&copy; 2025 SecretLayers. All rights reserved.</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-x-6 gap-y-2">
+                        <a href="#" class="text-sm text-white text-opacity-70 hover:text-opacity-100 transition-colors">Terms</a>
+                        <a href="#" class="text-sm text-white text-opacity-70 hover:text-opacity-100 transition-colors">Privacy</a>
+                        <a href="#" class="text-sm text-white text-opacity-70 hover:text-opacity-100 transition-colors">FAQs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/alger.js"></script>
+</body>
+</html> 

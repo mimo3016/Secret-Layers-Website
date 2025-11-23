@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecretLayers | Artisan Tiramisu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: 'rgb(101, 6, 9)',
+                        cream: 'rgb(232, 204, 192)',
+                        darkCream: 'rgb(212, 184, 172)',
+                        lightCream: 'rgb(242, 224, 212)',
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+    
+        
+        .hero-section {
+            background-image: url('images/background.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(101, 6, 9, 0.1), 0 10px 10px -5px rgba(101, 6, 9, 0.04);
+        }
+        
+        .gallery-item {
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: rgb(101, 6, 9);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(101, 6, 9, 0.1);
+        }
+        
+        .social-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            color: rgb(101, 6, 9);
+        }
+
+        /* Placeholder for images */
+        .img-placeholder {
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .rounded-owner{
+            border-radius: 20px;
+        }
+
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 5px;
+        }
+        .row::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+
+    </style>
+
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header (Sticky) -->
+    <header class="fixed w-full bg-white bg-opacity-95 shadow-sm z-50 py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="home.html" class="logo text-burgundy text-2xl md:text-3xl">SecretLayers</a>
+            
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="home.html" class="nav-link text-burgundy font-medium">Home</a>
+                <a href="order.html" class="nav-link text-gray-800 hover:text-burgundy transition-colors">Order</a>
+                <a href="about.html" class="nav-link text-gray-800 hover:text-burgundy transition-colors">About</a>
+                <a href="contact.html" class="nav-link text-gray-800 hover:text-burgundy transition-colors">Contact</a>
+            </nav>
+            
+            <div class="flex items-center">
+                <div class="relative mr-2 md:mr-0">
+                    <button id="cart-btn" class="p-2 text-gray-800 hover:text-burgundy transition-colors">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span id="cart-count" class="cart-count">0</span>
+                    </button>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-800 hover:text-burgundy">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white absolute w-full border-t border-gray-100 py-4 shadow-lg">
+            <div class="container mx-auto px-4 flex flex-col space-y-4">
+                <a href="home.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">Home</a>
+                <a href="order.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">Order</a>
+                <a href="about.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">About</a>
+                <a href="contact.html" class="text-gray-800 hover:text-burgundy py-2 transition-colors">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+        <div class="p-6 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-burgundy">Your Cart</h2>
+                <button id="close-cart" class="text-gray-500 hover:text-burgundy">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="flex-grow overflow-y-auto">
+                <p id="empty-cart-message" class="text-gray-500 text-center py-8">Your cart is empty</p>
+                <!-- Cart items will be added here dynamically -->
+            </div>
+            
+            <div class="pt-4 border-t border-gray-200">
+                <div class="flex justify-between mb-4">
+                    <span class="font-medium">Total:</span>
+                    <span id="cart-total" class="font-semibold text-burgundy">£0.00</span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-burgundy text-white py-3 rounded-md hover:bg-opacity-90 transition-colors">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section h-screen flex items-center justify-center text-white pt-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="font-playfair text-4xl md:text-5xl lg:text-6xl font-medium mb-4">Discover the Secret in Every Layer.</h1>
+                <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">Crafted fresh. Delivered fast. Exclusively Tiramisu.</p>
+                <a href="order.html" class="btn-primary inline-block bg-burgundy text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-opacity-90">Order Now</a>
+            </div>
+        </section>
+
+        <!-- Featured Products Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-4">
+                <!--<h1 class="font-playfair text-3xl md:text-4xl text-burgundy text-center mb-12">Signature Creations</h1>
+                <h2 class="md:text-2xl text-center mb-12  leading-relaxed"><b>WE MAKE EVERY BITE MEMORABLE</h2>-->
+
+                <h1 class="font-playfair text-3xl md:text-4xl lg:text-5xl text-burgundy text-center mb-6">Our Tiramisu Selection</h1>
+                <p class="text-center text-lg mb-12 max-w-2xl mx-auto">Handcrafted with love and the finest ingredients. Choose from our classic flavours or try one of our special editions.</p>  
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                        <div class="h-64 bg-cream bg-opacity-50 img-placeholder">
+                            <img src="images/chocolate.jpg" alt="Classic Tiramisu" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-playfair text-xl font-medium">Classic Italian</h3>
+                                <span class="text-burgundy font-medium">£8.50</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Light as air, deep as espresso. Our signature classic recipe.</p>
+                            <button class="add-to-cart w-full bg-burgundy text-white py-2 rounded hover:bg-opacity-90 transition-colors" data-id="1" data-name="Classic Italian" data-price="8.50">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                        <div class="h-64 bg-cream bg-opacity-50 img-placeholder">
+                            <img src="images/pistachiu.jpg" alt="Pistachio Tiramisu" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-playfair text-xl font-medium">Pistachio Dream</h3>
+                                <span class="text-burgundy font-medium">£9.95</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Nutty pistachio cream with a hint of almond. A customer favourite.</p>
+                            <button class="add-to-cart w-full bg-burgundy text-white py-2 rounded hover:bg-opacity-90 transition-colors" data-id="2" data-name="Pistachio Dream" data-price="9.95">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                        <div class="h-64 bg-cream bg-opacity-50 overflow-hidden">
+                            <img src="images/biscof.jpg" alt="Biscoff Tiramisu" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-playfair text-xl font-medium">Biscoff Bliss</h3>
+                                <span class="text-burgundy font-medium">£9.50</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Caramelised cookie perfection. Sweet, spiced, and utterly indulgent.</p>
+                            <button class="add-to-cart w-full bg-burgundy text-white py-2 rounded hover:bg-opacity-90 transition-colors" data-id="3" data-name="Biscoff Bliss" data-price="9.50">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="order.html" class="btn-primary inline-block bg-burgundy text-white px-6 py-3 rounded-md font-medium hover:bg-opacity-90">View All Flavours</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Preview Section -->
+        <section class="py-20 bg-cream bg-opacity-30">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <div class="overflow-hidden rounded-lg h-96 w-full">
+                            <img src="images/owner.jpg" alt="Owner Image" class="object-cover w-full h-full">
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <h1 class="font-playfair text-3xl md:text-4xl text-burgundy mb-6">Where It All Started</h1>
+                        <p class="text-lg mb-4 leading-relaxed">
+                            TIRAMISU HAS ALWAYS BEEN MY LOVE STORY. ❤️
+                        </p>
+                        <p class="text-lg mb-6 leading-relaxed font-light">
+                            "From a young age, back home in Sicily, I found joy in the simplest layers of mascarpone and coffee-soaked savoiardi.
+                            After nearly a decade of living in London, I've decided to bring a little Sicilian love to this city I now call home."
+                        </p>
+                        <a href="about.html" class="btn-primary inline-block bg-burgundy text-white px-6 py-3 rounded-md font-medium hover:bg-opacity-90">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Three Pictures Display -->
+        <section class="image-row bg-cream bg-opacity-10">
+            <div class="row">
+                <div class="column">
+                  <img src="images/banana.jpg" alt="Banana" style="width:100%">
+                </div>
+                <div class="column">
+                  <img src="images/model.jpg" alt="Owner" style="width:100%">
+                </div>
+                <div class="column">
+                  <img src="images/display.jpg" alt="Products" style="width:100%">
+                </div>
+            </div>  
+        </section>
+
+        <!-- Contact Preview -->
+        <section id ="Location" class="py-20 bg-cream bg-opacity-20">
+            <div class="container mx-auto px-4 text-center">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <div class="overflow-hidden rounded-lg h-full w-full">
+                            <img src="images/shop.jpg" alt="Shop Image" class="object-cover w-full h-screen">
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-1/2">
+                        <h1 class="text-4xl mb-8 max-w-2xl mx-auto"><b>📍Paddington, London</h1>
+                        <p class="text-lg mb-8 max-w-2xl mx-auto"><b>Located in the heart of London, our shop is ready to welcome you with freshly made tiramisu every weekend.</p>
+                        <a href="contact.html" class="btn-primary mt-6 inline-block bg-burgundy text-white px-6 py-3 rounded-md font-medium hover:bg-opacity-90">Visit Us</a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!--Video-->
+        <section id="Video">
+            <div>
+                <video autoplay loop muted playsinline width="100%">
+                    <source src="images/video.mp4" type="video/mp4">
+                </video>
+            </div>
+        </section>
+
+        <!--Philosophy in the main page-->
+        <section id="main-philosophy" class="w-screen h-screen  bg-cream bg-opacity-20">
+            <div class="container mx-auto px-4 h-full flex items-center justify-center">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Quality Ingredients -->
+                <div class="value-card bg-white p-8 rounded-lg shadow-md text-center">
+                  <div class="w-16 h-16 bg-cream bg-opacity-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-leaf text-burgundy text-2xl"></i>
+                  </div>
+                  <h3 class="font-playfair text-xl mb-4">Quality Ingredients</h3>
+                  <p class="text-gray-600">
+                    We source only the finest ingredients, from imported Italian mascarpone to locally-sourced organic cream. Quality is never compromised.
+                  </p>
+                </div>
+          
+                <!-- Freshness -->
+                <div class="value-card bg-white p-8 rounded-lg shadow-md text-center">
+                  <div class="w-16 h-16 bg-cream bg-opacity-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-brands fa-sketch text-burgundy text-2xl"></i>
+                  </div>
+                  <h3 class="font-playfair text-xl mb-4">Freshness</h3>
+                  <p class="text-gray-600">
+                    Every tiramisu is prepared daily in small batches, ensuring peak flavour and texture. No preservatives, no shortcuts just genuinely fresh dessert delivered straight to you.
+                  </p>
+                </div>
+          
+                <!-- Authenticity -->
+                <div class="value-card bg-white p-8 rounded-lg shadow-md text-center">
+                  <div class="w-16 h-16 bg-cream bg-opacity-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-brands fa-adn text-burgundy text-2xl"></i>
+                  </div>
+                  <h3 class="font-playfair text-xl mb-4">Authenticity</h3>
+                  <p class="text-gray-600">
+                    Rooted in Italian tradition, our tiramisu honours the original recipe, crafted with time-tested methods that celebrate true flavour and heritage without unnecessary reinvention.
+                  </p>
+                </div>
+          
+              </div>
+            </div>
+          </section>
+          
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-burgundy text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <a href="home.html" class="logo text-2xl md:text-3xl mb-6 md:mb-0">SecretLayers</a>
+                
+                <div class="flex space-x-6">
+                    <a href="https://www.instagram.com/_secretlayers/reels/" class="social-icon text-xl hover:text-cream">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon text-xl hover:text-cream">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon text-xl hover:text-cream">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-white border-opacity-20 pt-8">
+                <div class="flex flex-col md:flex-row justify-between">
+                    <div class="mb-6 md:mb-0">
+                        <p class="text-sm text-white text-opacity-70">&copy; 2025 SecretLayers. All rights reserved.</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-x-6 gap-y-2">
+                        <a href="#" class="text-sm text-white text-opacity-70 hover:text-opacity-100 transition-colors">Terms</a>
+                        <a href="#" class="text-sm text-white text-opacity-70 hover:text-opacity-100 transition-colors">Privacy</a>
+                        <a href="#" class="text-sm text-white text-opacity-70 hover:text-opacity-100 transition-colors">FAQs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-burgundy text-white px-6 py-3 rounded-md shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <p id="notification-message"></p>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Cart functionality
+    const cartBtn = document.getElementById('cart-btn');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const cartCount = document.getElementById('cart-count');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('secretLayersCart')) || [];
+    updateCart();
+
+    // Open cart
+    cartBtn.addEventListener('click', () => {
+        cartSidebar.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close cart
+    closeCartBtn.addEventListener('click', () => {
+        cartSidebar.classList.add('translate-x-full');
+        document.body.style.overflow = 'auto';
+    });
+
+    // Add to cart buttons
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id').toString(); // Ensure id is string
+            const name = button.getAttribute('data-name');
+            const price = parseFloat(button.getAttribute('data-price'));
+
+            // Find existing item by string id
+            const existingItem = cart.find(item => item.id === id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+
+            saveAndUpdateCart();
+            showNotification(`Added ${name} to cart`);
+        });
+    });
+
+    // Save to localStorage and update cart display
+    function saveAndUpdateCart() {
+        localStorage.setItem('secretLayersCart', JSON.stringify(cart));
+        updateCart();
+    }
+
+    // Update cart UI
+    function updateCart() {
+        // Clear cartItems container
+        cartItems.innerHTML = '';
+
+        if (cart.length === 0) {
+            emptyCartMessage.classList.remove('hidden');
+            checkoutBtn.disabled = true;
+            checkoutBtn.classList.add('opacity-50');
+        } else {
+            emptyCartMessage.classList.add('hidden');
+            checkoutBtn.disabled = false;
+            checkoutBtn.classList.remove('opacity-50');
+
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'flex justify-between items-center py-3 border-b border-gray-100';
+                cartItem.innerHTML = `
+                <div>
+                    <h4 class="font-medium">${item.name}</h4>
+                    <div class="flex items-center mt-1">
+                        <button class="decrease-quantity text-gray-500 hover:text-burgundy px-2" data-id="${item.id}">-</button>
+                        <span class="mx-2">${item.quantity}</span>
+                        <button class="increase-quantity text-gray-500 hover:text-burgundy px-2" data-id="${item.id}">+</button>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="mr-4">£${(item.price * item.quantity).toFixed(2)}</span>
+                    <button class="remove-item text-gray-400 hover:text-burgundy" data-id="${item.id}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `;
+            cartItems.appendChild(cartItem);
+        });
+
+        // Attach event listeners for quantity and remove buttons AFTER rendering
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const item = cart.find(item => item.id === id);
+                if (item) {
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                    } else {
+                        cart = cart.filter(item => item.id !== id);
+                    }
+                    saveAndUpdateCart();
+                }
+            });
+        });
+
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const item = cart.find(item => item.id === id);
+                if (item) {
+                    item.quantity += 1;
+                    saveAndUpdateCart();
+                }
+            });
+        });
+
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                cart = cart.filter(item => item.id !== id);
+                saveAndUpdateCart();
+            });
+        });
+    }
+
+    // Update total and count in UI
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    cartTotal.textContent = `£${total.toFixed(2)}`;
+
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCount.textContent = count;
+    }
+
+    // Checkout
+    checkoutBtn.addEventListener('click', () => {
+        if (cart.length > 0) {
+            showNotification('Order placed successfully!');
+            cart = [];
+            saveAndUpdateCart();
+            setTimeout(() => {
+                cartSidebar.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+            }, 1500);
+        }
+    });
+
+    // Notifications
+    function showNotification(message) {
+        notificationMessage.textContent = message;
+        notification.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+           notification.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
+    }
+
+   </script>
+</body>
+</html>
+
